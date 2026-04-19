@@ -1,0 +1,23 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- REQUIRED for overlay -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <application>
+
+        <!-- Optional: pwede mo na alisin later -->
+        <activity
+            android:name=".IncomingAlertActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog.Alert" />
+
+        <!-- IMPORTANT: Overlay Service -->
+        <service
+            android:name=".AlertOverlayService"
+            android:exported="false" />
+
+    </application>
+</manifest>
