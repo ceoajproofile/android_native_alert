@@ -17,10 +17,9 @@
         android:icon="@mipmap/ic_launcher">
 
         <!-- OneSignal native notification extension -->
-        <meta-data
-            android:name="com.onesignal.NotificationServiceExtension"
-            android:value="com.mycompany.proofile.NotificationServiceExtension" />
-
+    <meta-data
+    android:name="com.onesignal.NotificationServiceExtension"
+    android:value="com.proofdev.android_native_alert.NotificationServiceExtension" />
         <!-- Your normal Flutter launcher activity -->
         <activity
             android:name=".MainActivity"
