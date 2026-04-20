@@ -28,8 +28,7 @@ plugins {
 
 android {
     namespace = "com.proofdev.android_native_alert"
-
-    compileSdk = 36
+    compileSdk = 35 // Recommended stable version
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -44,31 +43,27 @@ android {
         getByName("main") {
             java.srcDirs("src/main/kotlin")
         }
-        getByName("test") {
-            java.srcDirs("src/test/kotlin")
-        }
     }
 
     defaultConfig {
         minSdk = 24
     }
 
-    testOptions {
-        unitTests {
-            isIncludeAndroidResources = true
-            all {
-                it.useJUnitPlatform()
-                it.outputs.upToDateWhen { false }
-                it.testLogging {
-                    events("passed", "skipped", "failed", "standardOut", "standardError")
-                    showStandardStreams = true
-                }
-            }
+    // PARA HINDI MABURA ANG CLASS SA BUILD
+    buildTypes {
+        release {
+            consumerProguardFiles("proguard-rules.pro")
+        }
+        debug {
+            consumerProguardFiles("proguard-rules.pro")
         }
     }
 }
 
 dependencies {
+    // IMPORTANTE: Para ma-compile ang OneSignal classes sa loob ng plugin
+    compileOnly("com.onesignal:OneSignal:[5.0.0, 5.99.99]")
+
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.mockito:mockito-core:5.0.0")
 }
