@@ -1,4 +1,4 @@
-package com.mycompany.proofile
+package com.proofdev.android_native_alert
 
 import android.util.Log
 import androidx.annotation.Keep
@@ -34,9 +34,14 @@ class NotificationServiceExtension : INotificationServiceExtension {
 
             if (type == "service_alert" && urgent) {
                 Log.d("OS_EXT", "=== MATCHED SERVICE ALERT ===")
+
+                // OPTIONAL: trigger overlay directly from native
+                // You can connect this later to AlertOverlayService if needed
+
             } else {
                 Log.d("OS_EXT", "=== NOT MATCHED ===")
             }
+
         } catch (e: Exception) {
             Log.e("OS_EXT", "EXTENSION ERROR: ${e.message}", e)
         }
