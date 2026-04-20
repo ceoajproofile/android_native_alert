@@ -1,5 +1,6 @@
 package com.proofdev.android_native_alert
 
+import android.content.Intent
 import android.util.Log
 import androidx.annotation.Keep
 import com.onesignal.notifications.IDisplayableMutableNotification
@@ -18,28 +19,41 @@ class NotificationServiceExtension : INotificationServiceExtension {
 
             Log.d("OS_EXT", "raw additionalData = $data")
 
-            val type = data?.optString("type", "") ?: ""
-            val urgent = data?.optBoolean("urgent", false) ?: false
+            // Inadjust ang keys base sa iyong actual OneSignal logs:
+            // "notification_mode" sa log mo ay "alert"
+            val mode = data?.optString("notification_mode", "") ?: ""
+            // "emergency" sa log mo ay "true"
+            val isEmergency = data?.optBoolean("emergency", false) ?: false
+            
+            // Iba pang data na nakita sa log:
             val requestId = data?.optString("request_id", "") ?: ""
-            val serviceName = data?.optString("service_name", "") ?: ""
+            val serviceName = data?.optString("service", "") ?: "" // "service" ang key sa log
             val budget = data?.optString("budget", "") ?: ""
-            val distance = data?.optString("distance", "") ?: ""
+            val distance = data?.optString("distance_km", "") ?: ""
 
-            Log.d("OS_EXT", "type=$type")
-            Log.d("OS_EXT", "urgent=$urgent")
-            Log.d("OS_EXT", "requestId=$requestId")
-            Log.d("OS_EXT", "serviceName=$serviceName")
-            Log.d("OS_EXT", "budget=$budget")
-            Log.d("OS_EXT", "distance=$distance")
+            Log.d("OS_EXT", "Parsed Data -> mode: $mode, emergency: $isEmergency")
+            Log.d("OS_EXT", "Details -> Service: $serviceName, Budget: $budget, ReqID: $requestId")
 
-            if (type == "service_alert" && urgent) {
-                Log.d("OS_EXT", "=== MATCHED SERVICE ALERT ===")
+            // Check if it matches your emergency criteria
+            if (mode == "alert" && isEmergency) {
+                Log.d("OS_EXT", "=== MATCHED EMERGENCY ALERT! ===")
 
-                // OPTIONAL: trigger overlay directly from native
-                // You can connect this later to AlertOverlayService if needed
+                // TRIGGER NATIVE OVERLAY
+                val context = event.context
+                val intent = Intent(context, AlertOverlayService::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    putExtra("service_name", serviceName)
+                    putExtra("budget", budget)
+                    putExtra("distance", distance)
+                    putExtra("request_id", requestId)
+                }
+                
+                // Simulan ang overlay service
+                context.startService(intent)
+                Log.d("OS_EXT", "=== OVERLAY SERVICE STARTED FROM EXTENSION ===")
 
             } else {
-                Log.d("OS_EXT", "=== NOT MATCHED ===")
+                Log.d("OS_EXT", "=== NOT MATCHED: check mode and emergency keys ===")
             }
 
         } catch (e: Exception) {
