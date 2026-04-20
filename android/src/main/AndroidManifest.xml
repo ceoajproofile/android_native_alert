@@ -1,54 +1,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mycompany.proofile">
+    package="com.proofdev.android_native_alert">
 
-    <!-- Push / notification -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.VIBRATE" />
-
-    <!-- Overlay / alert -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-
-    <!-- Optional: only if magte-test ka ng full-screen intent path -->
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
 
-    <application
-        android:label="ProoFile"
-        android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+    <application>
+        <meta-data
+            android:name="com.onesignal.NotificationServiceExtension"
+            android:value="com.proofdev.android_native_alert.NotificationServiceExtension" />
 
-        <!-- OneSignal native notification extension -->
-    <meta-data
-    android:name="com.onesignal.NotificationServiceExtension"
-    android:value="com.proofdev.android_native_alert.NotificationServiceExtension" />
-        <!-- Your normal Flutter launcher activity -->
-        <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:theme="@style/LaunchTheme"
-            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
-            android:hardwareAccelerated="true"
-            android:windowSoftInputMode="adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-
-        <!-- Optional native alert activity -->
-        <activity
-            android:name=".IncomingAlertActivity"
-            android:exported="false"
-            android:excludeFromRecents="true"
-            android:launchMode="singleTop"
-            android:showWhenLocked="true"
-            android:turnScreenOn="true"
-            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog.Alert" />
-
-        <!-- Optional service if kailangan ng overlay service -->
         <service
             android:name=".AlertOverlayService"
             android:exported="false" />
-
     </application>
 </manifest>
