@@ -1,0 +1,3 @@
+-keep class com.proofdev.android_native_alert.NotificationServiceExtension { *; }
+-keep class com.proofdev.android_native_alert.AlertOverlayService { *; }
+-keep class com.proofdev.android_native_alert.AndroidNativeAlertPlugin { *; }
